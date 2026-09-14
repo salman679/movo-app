@@ -33,12 +33,11 @@ export async function syncPending(userId: string) {
           "{}",
           q.id,
         );
-        analytics.track(
-          result.status === "VERIFIED"
-            ? "activity_verified"
-            : "activity_rejected",
-          { status: result.status },
-        );
+        if (result.status === "VERIFIED" || result.status === "REJECTED")
+          analytics.track(
+            result.status === "VERIFIED" ? "activity_verified" : "activity_rejected",
+            { status: result.status },
+          );
         if (result.pointsAwarded > 0)
           analytics.track("points_earned", { points: result.pointsAwarded });
       } catch (e) {

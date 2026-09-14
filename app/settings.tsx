@@ -94,7 +94,7 @@ export default function Settings() {
                   style: "destructive",
                   onPress: () =>
                     void run(async () => {
-                      if (await activityTrackingService.getCurrentActivity())
+                      if (await activityTrackingService.getCurrentActivity(user!.id))
                         throw new Error(
                           "Finish or discard the active recording first.",
                         );

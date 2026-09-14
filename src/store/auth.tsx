@@ -40,6 +40,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
       await AsyncStorage.setItem(CACHE, JSON.stringify(u));
     } catch (e) {
       if (e instanceof ApiError && e.status === 401) {
+        await activityTrackingService.pause().catch(() => undefined);
         await session.clear();
         await AsyncStorage.removeItem(CACHE);
         query.clear();
@@ -84,7 +85,7 @@ export function AuthProvider({ children }: PropsWithChildren) {
           analytics.track("signup_completed");
         },
         logout: async (deleted = false) => {
-          if (await activityTrackingService.getCurrentActivity())
+          if (await activityTrackingService.getCurrentActivity(user?.id))
             throw new Error(
               "Finish or discard your active activity before signing out.",
             );

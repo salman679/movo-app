@@ -31,7 +31,7 @@ export default function Track() {
       .finally(() => setLoading(false));
     const timer = setInterval(() => {
       setNow(Date.now());
-      void service.getCurrentActivity().then(setActive);
+      void service.getCurrentActivity(user.id).then(setActive).catch((e) => setError(e.message));
     }, 1000);
     return () => clearInterval(timer);
   }, [user?.id]);
@@ -40,7 +40,7 @@ export default function Track() {
     setError("");
     try {
       await fn();
-      setActive(await service.getCurrentActivity());
+      setActive(await service.getCurrentActivity(user!.id));
     } catch (e) {
       setError((e as Error).message);
     } finally {

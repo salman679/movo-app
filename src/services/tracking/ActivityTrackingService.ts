@@ -299,8 +299,9 @@ export class ActivityTrackingService {
       await tx.runAsync("DELETE FROM active");
     });
   }
-  getCurrentActivity() {
-    return getActive();
+  async getCurrentActivity(userId?: string) {
+    const active = await getActive();
+    return active && (!userId || active.userId === userId) ? active : null;
   }
   async recoverActivity(userId: string) {
     const s = await getActive();
