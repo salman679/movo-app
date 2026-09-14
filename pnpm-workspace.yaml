@@ -1,0 +1,10 @@
+packages:
+  - packages/*
+nodeLinker: hoisted
+allowBuilds:
+  '@prisma/engines': true
+  '@prisma/client': true
+  esbuild: true
+  prisma: true
+  sharp: true
+  unrs-resolver: true
